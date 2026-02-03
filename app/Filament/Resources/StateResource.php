@@ -46,10 +46,10 @@ class StateResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('country_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('country.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('State Name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -59,7 +59,7 @@ class StateResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ])->defaultSort('country.name')
             ->filters([
                 //
             ])
