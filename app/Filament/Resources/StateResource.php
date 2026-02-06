@@ -10,6 +10,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -17,7 +20,7 @@ class StateResource extends Resource
 {
     protected static ?string $model = State::class;
 
-     protected static ?string $navigationIcon = 'heroicon-o-building-library';
+    protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
     protected static ?string $navigationLabel = 'State';
 
@@ -32,7 +35,7 @@ class StateResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('country_id')
-                    ->relationship(name:'country', titleAttribute:'name')
+                    ->relationship(name: 'country', titleAttribute: 'name')
                     ->searchable()
                     ->preload()
                     ->required(),
@@ -71,6 +74,18 @@ class StateResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('State Info')
+                    ->schema([
+                        TextEntry::make('country.name')->label('Country Name'),
+                        TextEntry::make('name')->label('State Name'),
+                    ])->columns(2)
             ]);
     }
 
